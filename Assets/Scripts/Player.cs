@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
    
     private Camera _camera;
     private SpriteRenderer mySprite;
-    private Rigidbody2D myRigid; 
+    private Rigidbody2D myRigid;
+    private Animator myAnim;
     // 사용할 변수들 선언
 
     private void Awake()
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
         _camera = Camera.main;
         myRigid = GetComponent<Rigidbody2D>(); 
         mySprite = GetComponent<SpriteRenderer>();
+        myAnim = GetComponent<Animator>();
     }
 
     public void OnMove(InputValue value)
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour
     }
 
     private void LateUpdate()
-    {        
-        
+    {
+        myAnim.SetFloat("Speed",moveInput.magnitude);
     }
 }
