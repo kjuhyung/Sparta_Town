@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Threading;
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Player : MonoBehaviour
 
     private Vector2 mouseAim;
     private Vector2 currentMouseAim;
+
 
     [Header("# Player Info")]
     [SerializeField] private float speed;
@@ -42,7 +44,15 @@ public class Player : MonoBehaviour
     {        
         mouseAim = value.Get<Vector2>();        
     }
+    public void OnJump(InputValue value)
+    {
+        myAnim.SetBool("Jump", true);
+    }
 
+    public void ResetJumpAnimation()
+    {
+        myAnim.SetBool("Jump", false);
+    }
 
     private void Update()
     {
@@ -70,5 +80,6 @@ public class Player : MonoBehaviour
     private void LateUpdate()
     {
         myAnim.SetFloat("Speed",moveInput.magnitude);
+        
     }
 }
