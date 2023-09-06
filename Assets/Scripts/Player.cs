@@ -45,14 +45,10 @@ public class Player : MonoBehaviour
         mouseAim = value.Get<Vector2>();        
     }
     public void OnJump(InputValue value)
-    {
-        myAnim.SetBool("Jump", true);
+    {        
+        myAnim.SetTrigger("Jump");
     }
 
-    public void ResetJumpAnimation()
-    {
-        myAnim.SetBool("Jump", false);
-    }
 
     private void Update()
     {
