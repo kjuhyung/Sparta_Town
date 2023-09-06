@@ -7,45 +7,66 @@ public class Player : MonoBehaviour
 {
     
 
-    private Vector2 inputvec;
+    private Vector2 moveInput;
 
-    private Vector2 mousePosition;
+    private Vector2 worldPos;
 
+    private Vector2 mouseAim;
+    private Vector2 currentMouseAim;
+
+    [Header("# Player Info")]
     [SerializeField] private float speed;
-
+   
     private Camera _camera;
     private SpriteRenderer mySprite;
-    private Rigidbody2D myRigid; // Rigidbody 변수 선언
+    private Rigidbody2D myRigid; 
+    // 사용할 변수들 선언
 
     private void Awake()
     {
-        // 초기화, 자신의 컴포넌트 가져오기
+        // 초기화
         _camera = Camera.main;
         myRigid = GetComponent<Rigidbody2D>(); 
         mySprite = GetComponent<SpriteRenderer>();
     }
 
-    void OnMove(InputValue value)
+    public void OnMove(InputValue value)
     {
-        inputvec = value.Get<Vector2>();
+        moveInput = value.Get<Vector2>();
         // 인풋시스템에서 값을 가져와서 inputvec 변수에 할당
 
     }
-    void OnLook(InputValue value)
-    {
-        mousePosition = value.Get<Vector2>();
+    public void OnLook(InputValue value)
+    {        
+        mouseAim = value.Get<Vector2>();        
     }
 
+
+    private void Update()
+    {
+        worldPos = _camera.ScreenToWorldPoint(mouseAim);
+        currentMouseAim = (worldPos - (Vector2)transform.position);
+
+        if (currentMouseAim.x < 0)
+        {
+            mySprite.flipX = true;
+        }
+        else
+        {
+            mySprite.flipX = false;
+        }
+        // 마우스 바라보기
+    }
+    
     private void FixedUpdate()
     {
-        Vector2 nextVec = inputvec * speed * Time.deltaTime;
+        Vector2 nextVec = moveInput * speed * Time.deltaTime;
         myRigid.MovePosition(myRigid.position + nextVec);
-        // 이동하기
+        // 이동하기  
+    }
 
-        Vector2 worldPos = _camera.ScreenToWorldPoint(mousePosition);
-        mousePosition = (worldPos - (Vector2)transform.position).normalized;
-        if (mousePosition.x < 0) mySprite.flipX = true;
-
-        // 마우스위치 바라보기
+    private void LateUpdate()
+    {        
+        
     }
 }
