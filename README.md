@@ -1,4 +1,4 @@
-# SprataTown
+# Sparta Town
 
 ## 1. 게임 기능
 - idle, walk, jump Animation
